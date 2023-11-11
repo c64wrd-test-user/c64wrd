@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="{{ site.lang | default: " en-US" }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  {% seo %}
+
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  {% include head-custom.html %}
+</head>
+
+<body>
+  <div class="wrapper">
+    {% include header.html %}
+    <section>
+      <h1>
+        {% if page.next %}
+        <a class="tag-link" href={{ page.next.url | relative_url }} rel="prev">&#x21D0;</a>
+        {% endif %}
+
+        {% for i in (1..page.categories.size) %}
+        {% assign index = i | minus: 1 %}
+        {% assign category_slug = page.categories[index] | slugify: "raw" %}
+        {% if i != page.categories.size %}
+        {% assign category_folder = "/group/" %}
+        {% else %}
+        {% assign category_folder = "/demo/" %}
+        {% endif %}
+        <a class="tag-link" href={{ category_folder | append: category_slug | append: ".html" | relative_url }}
+          rel="tag">
+          {{ page.categories[index] }}
+        </a>
+        /
+        {% endfor %}
+
+        {{ page.title }}
+        {% if page.previous %}
+        <a class="tag-link" href={{ page.previous.url | relative_url }} rel="next">&#x21D2;</a>
+        {% endif %}
+      </h1>
+      <!-- the contents of the .md file comes here -->
+      {{ content }}
+    </section>
+    <section>
+      <strong>Coders:</strong>
+      {% for coder in page.coders %}
+      <a class="tag-link" href={{ "https://csdb.dk/scener/?id=" | append: coder.csdb }}>{{ coder.name }}</a>
+      {% endfor %}
+      <br>
+      {% assign link = "https://csdb.dk/release/?id=" | append: page.csdb %}
+      <strong>Download:</strong> <a class="tag-link" href={{ link }}>{{ link }}</a><br>
+      {% if page.record %}<strong>Record:</strong> {{ page.record }}<br>{% endif %}
+      {% if page.size %}<strong>Effect size:</strong> {{ page.size }} pixels<br>{% endif %}
+      {% if page.fps %}<strong>Frame/second:</strong> {{ page.fps }} fps<br>{% endif %}
+    </section>
+    <section>
+      {% for tag in page.tags %}
+      {% assign tag_slug = tag | slugify: "raw" %}
+      <a class="tag-link" href={{ "/effect/" | append: tag_slug | append: ".html" | relative_url }} rel="tag">
+        #{{ tag }}
+      </a>
+      {% endfor %}
+    </section>
+  </div>
+  {% include footer.html %}
+  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+</body>
+
+</html>

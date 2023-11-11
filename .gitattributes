@@ -1,0 +1,8 @@
+*	         text=auto
+*.md       text=auto diff=markdown
+
+
+*.png      -text binary
+*.jpg      -text binary
+*.jpeg     -text binary
+*.gif      -text binary

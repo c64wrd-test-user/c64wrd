@@ -1,0 +1,33 @@
+---
+layout: default
+---
+<div class="post">
+    <h1>Group: {{ page.category }}</h1>
+    {% assign sorted_categories = site.categories[page.category] | sort: "date" | reverse %}
+    {% for post in sorted_categories %}
+    {% assign demo_slug = post.categories | last | slugify: "raw" %}
+    <a class="tag-link" href={{ "/demo/" | append: demo_slug | append: ".html" | relative_url }} rel="tag">
+        {{ post.categories | last }}
+    </a>
+    /
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a> ({{ post.date | date_to_string }})<br>
+    {{ post.excerpt }}
+
+    {% for coder in post.coders %}
+    <a class="tag-link" href={{ "https://csdb.dk/scener/?id=" | append: coder.csdb }}>{{ coder.name }}</a>
+    {% endfor %}
+
+    {% if post.record %}{{ post.record }}{% endif %}
+    {% if post.size %}{{ post.size }} pixels{% endif %}
+    {% if post.fps %}{{ post.fps }} fps{% endif %}
+
+    {% for tag in post.tags %}
+    {% assign tag_slug = tag | slugify: "raw" %}
+    <a class="tag-link" href={{ "/effect/" | append: tag_slug | append: ".html" | relative_url }} rel="tag">
+        #{{ tag }}
+    </a>
+    {% endfor %}
+
+    <div style="clear: both;"></div>
+    {% endfor %}
+</div>
